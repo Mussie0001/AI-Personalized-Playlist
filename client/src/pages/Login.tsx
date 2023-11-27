@@ -9,7 +9,7 @@ const Login: React.FC = () => {
     const logInUser = async ()=>{
         console.log(email, password)
 
-        try{
+    try {
         const resp = await Client.post("//localhost:4500/login",{
             email,
             password,
@@ -18,8 +18,11 @@ const Login: React.FC = () => {
         window.location.href = "/";
     }
         catch(error: any){
-            if (error.response.status === 401){ 
+            if (error.response && error.response.status === 401){ 
                 alert("Invalid credentials");
+            }
+            else {
+                alert("An error has occurred. Please try again later.")
             }
     };
     }

@@ -8,8 +8,6 @@ import {
     MDBCard,
     MDBCardBody,
     MDBInput,
-    MDBCheckbox,
-    MDBIcon
   }
   from 'mdb-react-ui-kit';
 
@@ -22,15 +20,15 @@ import {
     const registerUser = async ()=>{
         console.log(email,firstName,lastName, password)
 
-        try{
-        const resp = await Client.post("//localhost:4500/register",{
+        try {
+          await Client.post("//localhost:4500/register",{
             email,
             firstName,
             lastName,
             password,
         });
 
-        window.location.href = "/spotify-authorization";
+        window.location.href = "/spotify-auth";
     }
         catch(error: any){
             if (error.response.status === 401){ 
@@ -76,24 +74,24 @@ import {
             <br></br>
             </div>
             <MDBInput labelStyle={{fontSize: '1.1em', paddingBlock: '0.2em'}} wrapperClass='mb-4' 
-            value={firstName} onChange={(e) => setFirstName(e.target.value)} label='First name*' id='form1' type='text'/>
+            value={firstName} onChange={(e) => setFirstName(e.target.value)} label='First Name:' id='form1' type='text'/>
 
 
 
               <MDBInput labelStyle={{fontSize: '1.1em', paddingBlock: '0.2em'}} wrapperClass='mb-4' value={lastName}
-            onChange={(e) => setLastName(e.target.value)} label='Last name*' id='form2' type='text'/>
+            onChange={(e) => setLastName(e.target.value)} label='Last Name:' id='form2' type='text'/>
 
 
-              <MDBInput labelStyle={{fontSize: '1.1em', paddingBlock: '0.2em'}} value={email} onChange={(e) => setEmail(e.target.value)} wrapperClass='mb-4' label='Email*' id='form3' type='email'/>
+              <MDBInput labelStyle={{fontSize: '1.1em', paddingBlock: '0.2em'}} value={email} onChange={(e) => setEmail(e.target.value)} wrapperClass='mb-4' label='Email:' id='form3' type='email'/>
 
-              <MDBInput value={password}onChange={(e) => setPassword(e.target.value)} labelStyle={{fontSize: '1.1em', paddingBlock: '0.2em'}} wrapperClass='mb-4' label='Password*' id='form4' type='password'/>
+              <MDBInput value={password}onChange={(e) => setPassword(e.target.value)} labelStyle={{fontSize: '1.1em', paddingBlock: '0.2em'}} wrapperClass='mb-4' label='Password:' id='form4' type='password'/>
 
 
 
-              <MDBBtn  onClick={() => registerUser()} className='w-100 mb-4' size='lg'>sign up</MDBBtn>
+              <MDBBtn  onClick={() => registerUser()} className='w-100 mb-4' size='lg'>Sign up</MDBBtn>
 
               <div className="text-center">
-                    <p>Already have an account? <a href= "/"style={{fontWeight: "bold"}}>Sign in</a></p>
+                    <p>Existing User? <a href= "/"style={{fontWeight: "bold"}}>SIGN IN</a></p>
               </div>
 
             </MDBCardBody>

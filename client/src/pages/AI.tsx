@@ -59,7 +59,7 @@ const AI: React.FC = () => {
       <MDBNavbarNav right className='mb-2 mb-lg-0'>
         <MDBNavbarItem active>
           <MDBNavbarLink aria-current='page' href='/AI'>
-            Home
+            
           </MDBNavbarLink>
         </MDBNavbarItem>
         <MDBNavbarItem>
@@ -138,7 +138,7 @@ const AI: React.FC = () => {
       <h1>Logged in</h1>
       <h2>Email: {user.email}</h2>
       <h2>ID: {user.id}</h2>
-      <h2>SpotifyId: {user.spotify_token}</h2>
+      <h2>Spotify_ID: {user.spotify_token}</h2>
       <button onClick = {logoutUser}>Logout</button>
       </div>
       </div>

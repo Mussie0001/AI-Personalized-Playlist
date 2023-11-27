@@ -10,7 +10,6 @@ import {
   MDBCard,
   MDBCardBody,
   MDBInput,
-  MDBIcon
 }
 from 'mdb-react-ui-kit';
 
@@ -21,13 +20,13 @@ const Home: React.FC = () => {
 
 
   const logInUser = async ()=>{
-      try{
+      try {
       const resp = await Client.post("//localhost:4500/login",{
           email,
           password,
       });
 
-      window.location.href = "/ai-session";
+      window.location.href = "/ai";
   }
       catch(error: any){
           if (error.response.status === 401){
@@ -42,12 +41,12 @@ useEffect(() => {
          const resp = await Client.get("//localhost:4500/@me");
 
          setUser(resp.data);
-         window.location.href ="/ai-session";
+         window.location.href ="/ai";
           }catch(error){
               console.log("Not authenticated");
           }
           if(user!= null){
-              window.location.href = "/ai-session";
+              window.location.href = "/ai";
           }
       })();
   }, []);
@@ -66,7 +65,7 @@ return (
     <h1 className="my-5 display-3 fw-bold ls-tight px-3" style={{color: 'hsl(218, 81%, 85%)'}}>
           SoundScape AI
         </h1>
-        <p className='custom-px-3' style={{color: 'hsl(218, 81%, 85%)'}}>
+        <p className='custom-px-3' style={{color: 'hsl(255, 100%, 100%)'}}>
         Where artifical intelligence meets your music taste.
         </p>
     </MDBCol>
@@ -77,7 +76,7 @@ return (
         <MDBCard className='my-5 bg-glass'>
           <MDBCardBody className='p-5'>
           <div className="text-center">
-          <h2 style={{alignItems: 'center'}} className="fw-bold mb-2">Sign in</h2>
+          <h2 style={{alignItems: 'center'}} className="fw-bold mb-2">SIGN IN</h2>
           <br></br>
           </div>
             <MDBInput labelStyle={{fontSize: '1.1em', paddingBlock: '0.2em'}} wrapperClass='mb-4'  value={email} onChange={(e) => setEmail(e.target.value)} label='Email*' id='form3' type='email'/>
@@ -85,7 +84,7 @@ return (
             <MDBBtn  onClick={() => logInUser()} className='w-100 mb-4' size='lg'>Log in</MDBBtn>
 
             <div className="text-center">
-              <p>Don't have an account? <a href= "/register"style={{fontWeight: "bold"}}>Register</a></p>
+              <p>Don't have an account? <a href= "/register"style={{fontWeight: "bold"}}>Register Here!</a></p>
             </div>
             </MDBCardBody>
         </MDBCard>
