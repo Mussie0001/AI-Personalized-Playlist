@@ -70,7 +70,7 @@ import {
               <MDBInput value={password}onChange={(e) => setPassword(e.target.value)} labelStyle={{fontSize: '1.1em', paddingBlock: '0.2em', color: 'white'}} wrapperClass='mb-4' label='Password:' id='form4' type='password' style={{color:'white'}}/>
               <MDBBtn  onClick={() => registerUser()} className='w-100 mb-4' size='lg'>Sign up</MDBBtn>
               <div className="text-center">
-                    <p>Existing User? <a href= "/"style={{fontWeight: "bold"}}>SIGN IN</a></p>
+                    <p>Existing User? <a href= "/"style={{fontWeight: "bold"}}>Sign In!</a></p>
               </div>
             </MDBCardBody>
         </MDBCol>
