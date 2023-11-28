@@ -24,7 +24,7 @@ const AI: React.FC = () => {
     const[user, setUser] = useState<User | null>(null)
 
     const logoutUser = async() =>{
-        const resp = await Client.post("//localhost:4500/logout");
+        await Client.post("//localhost:4500/logout");
         window.location.href="/"
     }
 
@@ -58,7 +58,7 @@ const AI: React.FC = () => {
     <div className='collapse navbar-collapse' id='navbarExample01'>
       <MDBNavbarNav right className='mb-2 mb-lg-0'>
         <MDBNavbarItem active>
-          <MDBNavbarLink aria-current='page' href='/AI'>
+          <MDBNavbarLink aria-current='page' href='/ai'>
             
           </MDBNavbarLink>
         </MDBNavbarItem>
@@ -143,13 +143,18 @@ const AI: React.FC = () => {
       </div>
       </div>
       ) : (
-        <div>
-            <p>You are not logged in!</p>
+        <div className='p-5 text-center' style={{height:'100vh', marginTop:"5%", color: 'black'}}>
+          <img object-fit="cover" alt="" style={{width: "40vh", height:"40vh"}}  src={require('./images/not-logged-in.png')}></img>
+            <br></br><br></br><br></br>
             <div>
-            <a href = "/login"><button>Login</button></a>
-             <a href = "/register"><button>Register</button></a>
+            <h2 className='mb-3'>You are not logged in!</h2>
+            <br></br><br></br>
+              <div>
+              <MDBBtn href="/" color="success" style={{ marginRight: '20px' }} className='w-25 mb-4' size='lg'>Login</MDBBtn>
+              <MDBBtn href="/register" color="success" className='w-25 mb-4' size='lg'>Register</MDBBtn>
+              </div>
             </div>
-            </div>
+        </div>
       )}
     </div>
     );

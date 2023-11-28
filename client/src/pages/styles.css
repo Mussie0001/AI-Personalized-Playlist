@@ -9,9 +9,10 @@
     background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
   }
 
-  .px-3 {
-    transform: translateY(-50%);
-  }
   .custom-px-3 {
-    transform: translate(7%, -300%);
+   transform: translateX(7%);
+  }
+
+  .text-center {
+    color: white;
   }

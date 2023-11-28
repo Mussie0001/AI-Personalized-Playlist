@@ -7,7 +7,6 @@ import {
   MDBContainer,
   MDBRow,
   MDBCol,
-  MDBCard,
   MDBCardBody,
   MDBInput,
 }
@@ -21,7 +20,7 @@ const Home: React.FC = () => {
 
   const logInUser = async ()=>{
       try {
-      const resp = await Client.post("//localhost:4500/login",{
+        await Client.post("//localhost:4500/login",{
           email,
           password,
       });
@@ -35,21 +34,23 @@ const Home: React.FC = () => {
   };
   }
 
-useEffect(() => {
-      (async () => {
-          try{
-         const resp = await Client.get("//localhost:4500/@me");
-
-         setUser(resp.data);
-         window.location.href ="/ai";
-          }catch(error){
-              console.log("Not authenticated");
-          }
-          if(user!= null){
-              window.location.href = "/ai";
-          }
-      })();
+  useEffect(() => {
+    (async () => {
+        try {
+           const resp = await Client.get("//localhost:4500/@me");
+           setUser(resp.data);
+        } catch(error) {
+            console.log("Not authenticated");
+        }
+    })();
   }, []);
+
+  useEffect(() => {
+    if(user != null) {
+        window.location.href = "/ai";
+    }
+  }, [user]);
+
 return ( 
   <div
         className="bg-image d-flex justify-content-center align-items-center"
@@ -70,24 +71,18 @@ return (
         </p>
     </MDBCol>
     <MDBCol md='6' className='position-relative'>
-        <div id="radius-shape-1" className="position-absolute rounded-circle shadow-5-strong"></div>
-        <div id="radius-shape-2" className="position-absolute shadow-5-strong"></div>
-
-        <MDBCard className='my-5 bg-glass'>
           <MDBCardBody className='p-5'>
           <div className="text-center">
           <h2 style={{alignItems: 'center'}} className="fw-bold mb-2">SIGN IN</h2>
           <br></br>
           </div>
-            <MDBInput labelStyle={{fontSize: '1.1em', paddingBlock: '0.2em'}} wrapperClass='mb-4'  value={email} onChange={(e) => setEmail(e.target.value)} label='Email*' id='form3' type='email'/>
-            <MDBInput labelStyle={{fontSize: '1.1em', paddingBlock: '0.2em'}} wrapperClass='mb-4'  value={password} onChange={(e) => setPassword(e.target.value)} label='Password*' id='form4' type='password'/>
+            <MDBInput  labelStyle={{fontSize: '1.1em', paddingBlock: '0.2em', color: 'white'}} wrapperClass='mb-4'  value={email} onChange={(e) => setEmail(e.target.value)} label='Email:' id='form3' type='email' style={{color:'white'}}/>
+            <MDBInput  labelStyle={{fontSize: '1.1em', paddingBlock: '0.2em', color: 'white'}} wrapperClass='mb-4'  value={password} onChange={(e) => setPassword(e.target.value)} label='Password:' id='form4' type='password'style={{color:'white'}}/>
             <MDBBtn  onClick={() => logInUser()} className='w-100 mb-4' size='lg'>Log in</MDBBtn>
-
             <div className="text-center">
               <p>Don't have an account? <a href= "/register"style={{fontWeight: "bold"}}>Register Here!</a></p>
             </div>
             </MDBCardBody>
-        </MDBCard>
     </MDBCol>
     </MDBRow>
     </MDBContainer>

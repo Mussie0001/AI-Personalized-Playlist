@@ -27,11 +27,11 @@ const Spotify: React.FC = () =>{
           } catch (error) {
               console.log("Not Authenticated");
           }
-          if(user!= null && user.spotify_token!=""){
-            window.location.href = "/ai";
-        }
       })();
-  }, []);  
+  }, []);
+    if(user!== null && user.spotify_token!==""){
+      window.location.href = "/ai";
+    }
   
     return (
       <header style={{ paddingLeft: 0 }}>
@@ -47,12 +47,10 @@ const Spotify: React.FC = () =>{
             <div className='collapse navbar-collapse' id='navbarExample01'>
               <MDBNavbarNav right className='mb-2 mb-lg-0'>
                 <MDBNavbarItem active>
-                  <MDBNavbarLink aria-current='page' href='/ai'>
-                    Home
-                  </MDBNavbarLink>
+                  <MDBNavbarLink aria-current='page' href='/ai'> Home </MDBNavbarLink>
                 </MDBNavbarItem>
                 <MDBNavbarItem>
-                  <MDBNavbarLink onClick = {logoutUser} href="/"> Logout</MDBNavbarLink>
+                  <MDBNavbarLink onClick = {logoutUser} href="/"> Logout </MDBNavbarLink>
                 </MDBNavbarItem>
 
               </MDBNavbarNav>
@@ -60,12 +58,12 @@ const Spotify: React.FC = () =>{
           </MDBContainer >
         </MDBNavbar>
 
-        <div className='p-5 text-center bg-light' style={{height:'100vh', marginTop:"5%"}}>
-            <img object-fit="cover"style={{width: "30vh", height:"30vh"}}  src={require('./images/oauth-image.png')}></img>
+        <div className='p-5 text-center bg-light' style={{height:'100vh', marginTop:"5%", color: 'black'}}>
+            <img object-fit="cover" alt="" style={{width: "40vh", height:"40vh"}}  src={require('./images/oauth-image.png')}></img>
             <br></br><br></br><br></br>
-          <h1 className='mb-3'>Please sign into your Spotify account to continue</h1>
+          <h1 className='mb-3'>Login to your Spotify account to continue</h1>
           <br></br>
-          <MDBBtn href="http://localhost:4500/spotifyLogin" color="success" className='w-100 mb-4' size='lg'>Connect to Spotify</MDBBtn>
+          <MDBBtn href="http://localhost:4500/spotifyLogin" color="success" className='w-25 mb-4' size='lg'>Connect to Spotify</MDBBtn>
 
 
         </div>
