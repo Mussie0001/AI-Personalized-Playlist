@@ -30,7 +30,7 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
-# left off here
+
 def track_id(token, track, artist):
     sp_oauth = create_spotify_oauth()
     code = token
@@ -69,11 +69,8 @@ def add_tracks_to_playlist(token, playlist_id, track_list):
     add_to_playlist = spotify_object.playlist_add_items(playlist_id,track_list)
     return add_to_playlist 
 
-def get_dalle_image(prompt):
+def dalle(prompt):
     openai.api_key = gpt_key
-    # Define the DALL-E API endpoint
-    endpoint = "https://api.openai.com/v1/images/generations"
-    # Define the API request data
     data = {
         "prompt": prompt,
         "num_images": 1,
@@ -82,8 +79,6 @@ def get_dalle_image(prompt):
     }
     response = openai.Image.create(**data)
     image_url = response["data"][0]["url"]
-    #image_data = requests.get(image_url).content
-    #image_base64 = base64.b64encode(image_data).decode("utf-8")
     return image_url
 
 @app.route('/spotify-playlist', methods=["POST"])
@@ -95,13 +90,13 @@ def createPlaylistController():
     user_spotify_token = user.spotifyToken
     song_list = []
     art_url = json_object['imageUrl']
-    for item in json_object:
-        if item != 'imageUrl':
+    for name in json_object:
+        if name != 'imageUrl':
             try:
-                song_list.append(track_id(user_spotify_token,item,json_object[item]))
+                song_list.append(track_id(user_spotify_token,name,json_object[name]))
             except:
                 print('Exception with getting track id')
-    playlist_id = create_playlist(user_spotify_token, 'Ai Generated Playlist')
+    playlist_id = create_playlist(user_spotify_token, 'Your AI Experience')
     add_tracks_to_playlist(user_spotify_token,playlist_id,song_list)
     update_playlist_cover(user_spotify_token,playlist_id,art_url)
 
@@ -114,8 +109,8 @@ def playlist():
     artist = request.json["artist"]
     type = request.json["type"]
     user_id = request.json['userId']
-    song_dictionary = get_songs_gpt(countSongs, genre, artist, type)
-    image_url = get_dalle_image(f"Album cover of music with {type} vibes and {genre} genre")
+    song_dictionary = songs(countSongs, genre, artist, type)
+    image_url = dalle(f"Album cover of music with {type} vibes and {genre} genre")
 
     song_dictionary['imageUrl'] = image_url
     json_object = json.dumps(song_dictionary)
@@ -124,7 +119,7 @@ def playlist():
     db.session.commit()
     return 'Complete'
 
-def get_songs_gpt(countSongs, genre, artist, type):
+def songs(countSongs, genre, artist, type):
     openai.api_key = gpt_key
 
     content = f"""Hello! I want a list of {countSongs}. 
