@@ -12,7 +12,6 @@ import {
     MDBRow,
     MDBRadio,
     MDBCardBody,
-    MDBCol,
     MDBNavbarItem,
     MDBNavbarLink,
     MDBInput,
@@ -22,6 +21,46 @@ import {
 
 const AI: React.FC = () => {
     const[user, setUser] = useState<User | null>(null)
+    const[countSongs, setCountSongs] = useState("");
+    const[genre, setGenre] = useState("");
+    const[artist, setArtist] = useState("");
+    const[type, setType] = useState("");
+    const userId = user?.id;
+
+    const preferences = async () => {
+
+      if (!countSongs || !genre || !artist || !type) {
+        alert('Complete All Fields!')
+        return;
+      }
+
+      if (!/^\d+$/.test(countSongs) && countSongs !== "") {
+        alert("Enter a valid number");
+        return;
+      } 
+
+      const numSong = parseInt(countSongs, 10);
+      if (numSong > 15 || numSong <= 0) {
+        alert("Please enter a number of songs from 1-15")
+        return;
+      }
+
+      try {
+        console.log(countSongs);
+        const resp = await Client.post("//localhost:4500/preferences", {
+          countSongs, genre, artist, type, userId
+        });
+        
+        console.log(resp);
+        window.location.href = "/playlist";
+      }
+
+      catch(error: any) {
+        if (error.response.status === 404) {
+          alert("Incorrect Credentials")
+        }
+      };
+    }
 
     const logoutUser = async() =>{
         await Client.post("//localhost:4500/logout");
@@ -42,7 +81,7 @@ const AI: React.FC = () => {
     return (
     <div>
 
-      {user != null? ( 
+      {user !== null? ( 
 
 <div >
 <header style={{ paddingLeft: 0 }}>
@@ -55,6 +94,8 @@ const AI: React.FC = () => {
     >
       <MDBIcon fas icon='bars' />
     </MDBNavbarToggler>
+
+    {/* logout bar */}
     <div className='collapse navbar-collapse' id='navbarExample01'>
       <MDBNavbarNav right className='mb-2 mb-lg-0'>
         <MDBNavbarItem active>
@@ -68,9 +109,11 @@ const AI: React.FC = () => {
 
       </MDBNavbarNav>
     </div>
+
     </MDBContainer >
 </MDBNavbar>
 </header>
+
 <div
         className="bg-image d-flex justify-content-center align-items-center"
         style={{
@@ -85,48 +128,22 @@ const AI: React.FC = () => {
 <MDBCard>
   <MDBCardBody className='px-4'>
 
-    <h3 className="fw-bold mb-4 pb-2 pb-md-0 mb-md-5">Registration</h3>
+    <h2 className="fw-bold mb-4 pb-2 pb-md-0 mb-md-5">Tell us what you like!</h2>
+    <MDBInput labelStyle={{fontSize: '1.1em', paddingBlock: '0.5em'}} wrapperClass='mb-4' label='How many songs would you like in your playlist?' size='lg' value={countSongs} 
+        onChange={(e) => {
+            setCountSongs(e.target.value);
+          }} type='text'/>    
+    <MDBInput labelStyle={{fontSize: '1.1em', paddingBlock: '0.5em'}} wrapperClass='mb-4' label='What genre of music would you prefer for the playlist?'size='lg' value={genre}onChange={(e) => setGenre(e.target.value)}type='text'/>
+    <MDBInput labelStyle={{fontSize: '1.1em', paddingBlock: '0.5em'}} wrapperClass='mb-4' label='Who is your favorite artist?'size='lg'  value={artist}onChange={(e) => setArtist(e.target.value)}type='text'/>
 
-    <MDBRow>
+        <div className='d-md-flex justify-content-start align-items-center mb-4'>
+          <h5 className="fw-bold mb-0 me-4">Music Type</h5>
+          <MDBRadio name='inlineRadio' id='inlineRadio7' value='Vocal' onChange={(e) => setType(e.target.value)} label='Vocal' inline />
+          <MDBRadio name='inlineRadio' id='inlineRadio8' value='Instrumental' onChange={(e) => setType(e.target.value)} label='Instrumental' inline />
+        </div>
 
-      <MDBCol md='6'>
-        <MDBInput wrapperClass='mb-4' label='First Name' size='lg' id='form1' type='text'/>
-      </MDBCol>
+    <MDBBtn onClick={() => preferences()}color="success" className='w-20 mb-4 ' size='lg'>Create my playlist</MDBBtn>
 
-      <MDBCol md='6'>
-        <MDBInput wrapperClass='mb-4' label='Last Name' size='lg' id='form2' type='text'/>
-      </MDBCol>
-
-    </MDBRow>
-
-    <MDBRow>
-
-      <MDBCol md='6'>
-        <MDBInput wrapperClass='mb-4' label='Birthday' size='lg' id='form3' type='text'/>
-      </MDBCol>
-
-      <MDBCol md='6' className='mb-4'>
-        <h6 className="fw-bold">Gender: </h6>
-        <MDBRadio name='inlineRadio' id='inlineRadio1' value='option1' label='Female' inline />
-        <MDBRadio name='inlineRadio' id='inlineRadio2' value='option2' label='Male' inline />
-        <MDBRadio name='inlineRadio' id='inlineRadio3' value='option3' label='Other' inline />
-      </MDBCol>
-
-    </MDBRow>
-
-    <MDBRow>
-
-      <MDBCol md='6'>
-        <MDBInput wrapperClass='mb-4' label='Email' size='lg' id='form4' type='email'/>
-      </MDBCol>
-
-      <MDBCol md='6'>
-        <MDBInput wrapperClass='mb-4' label='Phone Number' size='lg' id='form5' type='rel'/>
-      </MDBCol>
-
-    </MDBRow>
-
-    <MDBBtn className='mb-4' size='lg'>Submit</MDBBtn>
 
   </MDBCardBody>
 </MDBCard>
@@ -139,6 +156,8 @@ const AI: React.FC = () => {
       <h2>Email: {user.email}</h2>
       <h2>ID: {user.id}</h2>
       <h2>Spotify_ID: {user.spotify_token}</h2>
+      <h2>Spotify_Refresh: {user.spotify_refresh}</h2>
+      <h2>Playlist_Info: {user.playlistInfo}</h2>
       <button onClick = {logoutUser}>Logout</button>
       </div>
       </div>
